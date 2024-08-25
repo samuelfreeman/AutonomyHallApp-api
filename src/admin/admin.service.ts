@@ -8,22 +8,35 @@ export class AdminService {
   constructor(private readonly prisma: PrismaService) { }
 
   create(createAdminDto: CreateAdminDto) {
-    return 'This action adds a new admin';
+    return this.prisma.admin.create({
+      data: createAdminDto,
+    });
   }
 
   findAll() {
-    return `This action returns all admin`;
+    return this.prisma.admin.findMany({
+      orderBy: [
+        { createdAt: 'desc' }
+      ]
+    });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} admin`;
+  findOne(id: string) {
+    return this.prisma.admin.findUnique({
+      where: { id },
+    });
   }
 
-  update(id: number, updateAdminDto: UpdateAdminDto) {
-    return `This action updates a #${id} admin`;
+  update(id: string, updateAdminDto: UpdateAdminDto) {
+    return this.prisma.admin.update({
+      where: { id },
+      data: updateAdminDto,
+    });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} admin`;
+  remove(id: string) {
+    return this.prisma.admin.delete({
+      where: { id },
+    });
   }
 }
