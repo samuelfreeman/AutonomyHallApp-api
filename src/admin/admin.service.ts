@@ -8,6 +8,9 @@ export class AdminService {
   constructor(private readonly prisma: PrismaService) { }
 
   create(createAdminDto: CreateAdminDto) {
+
+     createAdminDto.password
+
     return this.prisma.admin.create({
       data: createAdminDto,
     });

@@ -1,9 +1,8 @@
 import { IsString, IsOptional, IsEmail, IsStrongPassword } from "class-validator";
 
 
-export class CreateAdminDto {
-    @IsString()
-    fullname: string
+export class signInAdminDto {
+
 
     @IsEmail()
     email: string
@@ -11,9 +10,8 @@ export class CreateAdminDto {
     @IsStrongPassword()
     password: string
 
-
     @IsOptional()
     @IsString()
     telephone?: string
-a
+
 }
