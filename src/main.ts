@@ -6,18 +6,17 @@ async function bootstrap() {
 
   //  use the document builder to create a new swagger document configuration
   const config = new DocumentBuilder()
-    .setTitle("Autonomy Hall App Api")
-    .setDescription("API Documentation for Autonomy Hall App")
-    .setVersion("1.0")
-    .addTag("Autonomy Hall App")
-    .build()
+    .setTitle('Autonomy Hall App Api')
+    .setDescription('API Documentation for Autonomy Hall App')
+    .setVersion('1.0')
+    .addTag('Autonomy Hall App')
+    .build();
 
   //  create the Swagger document
-  const document = SwaggerModule.createDocument(app, config)
+  const document = SwaggerModule.createDocument(app, config);
 
   //  use the SwaggerModule to serve the Swagger document
-  SwaggerModule.setup("api", app, document)
-
+  SwaggerModule.setup('api', app, document);
 
   await app.listen(3000);
 }

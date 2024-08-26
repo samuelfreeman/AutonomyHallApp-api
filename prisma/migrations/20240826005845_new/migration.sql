@@ -19,7 +19,8 @@ CREATE TABLE "admin" (
 
 -- CreateTable
 CREATE TABLE "student" (
-    "studentId" TEXT NOT NULL,
+    "id" TEXT NOT NULL,
+    "studentId" INTEGER NOT NULL,
     "profile" TEXT NOT NULL,
     "fullName" TEXT NOT NULL,
     "email" TEXT,
@@ -32,14 +33,14 @@ CREATE TABLE "student" (
     "department" TEXT,
     "hallId" TEXT,
 
-    CONSTRAINT "student_pkey" PRIMARY KEY ("studentId")
+    CONSTRAINT "student_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
 CREATE TABLE "allocation" (
     "id" TEXT NOT NULL,
-    "studentId" TEXT NOT NULL,
-    "roomsId" TEXT,
+    "studentId" INTEGER NOT NULL,
+    "roomsId" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
@@ -53,7 +54,7 @@ CREATE TABLE "rooms" (
     "status" "status" NOT NULL,
     "blockName" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "hallId" TEXT,
+    "hallId" TEXT NOT NULL,
 
     CONSTRAINT "rooms_pkey" PRIMARY KEY ("id")
 );
@@ -61,7 +62,7 @@ CREATE TABLE "rooms" (
 -- CreateTable
 CREATE TABLE "roomRequest" (
     "id" TEXT NOT NULL,
-    "StudentId" TEXT,
+    "StudentId" INTEGER NOT NULL,
     "status" "options" NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
@@ -84,6 +85,9 @@ CREATE TABLE "hall" (
 CREATE UNIQUE INDEX "admin_email_key" ON "admin"("email");
 
 -- CreateIndex
+CREATE UNIQUE INDEX "student_studentId_key" ON "student"("studentId");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "student_telephone_key" ON "student"("telephone");
 
 -- CreateIndex
@@ -102,10 +106,10 @@ ALTER TABLE "student" ADD CONSTRAINT "student_hallId_fkey" FOREIGN KEY ("hallId"
 ALTER TABLE "allocation" ADD CONSTRAINT "allocation_studentId_fkey" FOREIGN KEY ("studentId") REFERENCES "student"("studentId") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "allocation" ADD CONSTRAINT "allocation_roomsId_fkey" FOREIGN KEY ("roomsId") REFERENCES "rooms"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "allocation" ADD CONSTRAINT "allocation_roomsId_fkey" FOREIGN KEY ("roomsId") REFERENCES "rooms"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "rooms" ADD CONSTRAINT "rooms_hallId_fkey" FOREIGN KEY ("hallId") REFERENCES "hall"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "rooms" ADD CONSTRAINT "rooms_hallId_fkey" FOREIGN KEY ("hallId") REFERENCES "hall"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "roomRequest" ADD CONSTRAINT "roomRequest_StudentId_fkey" FOREIGN KEY ("StudentId") REFERENCES "student"("studentId") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "roomRequest" ADD CONSTRAINT "roomRequest_StudentId_fkey" FOREIGN KEY ("StudentId") REFERENCES "student"("studentId") ON DELETE RESTRICT ON UPDATE CASCADE;

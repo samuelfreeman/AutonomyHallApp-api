@@ -7,6 +7,6 @@ import { PasswordModule } from 'src/password/password.module';
   imports: [PrismaModule, PasswordModule],
   controllers: [AdminController],
   providers: [AdminService],
-  exports: [AdminService]
+  exports: [AdminService],
 })
-export class AdminModule { }
+export class AdminModule {}

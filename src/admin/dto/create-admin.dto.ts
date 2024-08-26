@@ -1,19 +1,22 @@
-import { IsString, IsOptional, IsEmail, IsStrongPassword } from "class-validator";
-
+import {
+  IsString,
+  IsOptional,
+  IsEmail,
+  IsStrongPassword,
+} from 'class-validator';
 
 export class CreateAdminDto {
-    @IsString()
-    fullname: string
+  @IsString()
+  fullname: string;
 
-    @IsEmail()
-    email: string
+  @IsEmail()
+  email: string;
 
-    @IsStrongPassword()
-    password: string
+  @IsStrongPassword()
+  password: string;
 
-
-    @IsOptional()
-    @IsString()
-    telephone?: string
-a
+  @IsOptional()
+  @IsString()
+  telephone?: string;
+  a;
 }

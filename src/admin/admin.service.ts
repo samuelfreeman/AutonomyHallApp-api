@@ -5,14 +5,15 @@ import { PrismaService } from 'src/prisma/prisma.service';
 import { PasswordService } from 'src/password/password.service';
 @Injectable()
 export class AdminService {
-
-  constructor(private readonly prisma: PrismaService, private bcrypt: PasswordService) { }
+  constructor(
+    private readonly prisma: PrismaService,
+    private bcrypt: PasswordService,
+  ) {}
 
   async create(createAdminDto: CreateAdminDto) {
-
-
-
-    createAdminDto.password = await this.bcrypt.hashPassword(createAdminDto.password)
+    createAdminDto.password = await this.bcrypt.hashPassword(
+      createAdminDto.password,
+    );
 
     return this.prisma.admin.create({
       data: createAdminDto,
@@ -21,9 +22,7 @@ export class AdminService {
 
   findAll() {
     return this.prisma.admin.findMany({
-      orderBy: [
-        { createdAt: 'desc' }
-      ]
+      orderBy: [{ createdAt: 'desc' }],
     });
   }
 
