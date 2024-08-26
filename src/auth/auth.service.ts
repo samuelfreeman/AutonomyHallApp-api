@@ -34,6 +34,7 @@ export class AuthService {
       throw new UnauthorizedException();
     }
     const { password: _, ...rest } = admin;
+    console.info("log used var",_);
     const payload = { sub: admin.id, email: admin.email };
     const token = await this.jwtService.signAsync(payload);
     return {

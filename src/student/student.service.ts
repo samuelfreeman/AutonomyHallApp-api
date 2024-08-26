@@ -5,11 +5,16 @@ import { PrismaService } from 'src/prisma/prisma.service';
 import { PasswordService } from 'src/password/password.service';
 @Injectable()
 export class StudentService {
-  constructor(private readonly prisma: PrismaService, private bcrypt: PasswordService) { }
+  constructor(
+    private readonly prisma: PrismaService,
+    private bcrypt: PasswordService,
+  ) {}
   async create(createStudentDto: CreateStudentDto) {
-    createStudentDto.password = await this.bcrypt.hashPassword(createStudentDto.password)
+    createStudentDto.password = await this.bcrypt.hashPassword(
+      createStudentDto.password,
+    );
     return this.prisma.student.create({
-      data: createStudentDto
+      data: createStudentDto,
     });
   }
 
@@ -17,68 +22,66 @@ export class StudentService {
     return this.prisma.student.findMany({
       orderBy: [
         {
-          createdAt: 'desc'
-        }
+          createdAt: 'desc',
+        },
       ],
       include: {
         hall: {
           select: {
-            name: true
-          }
+            name: true,
+          },
         },
         allocation: {
           select: {
             rooms: {
               select: {
-                roomnumber: true
-              }
-            }
-          }
-        }
-      }
+                roomnumber: true,
+              },
+            },
+          },
+        },
+      },
     });
   }
-
-
 
   findByStudentId(studentId: number) {
     return this.prisma.student.findUnique({
       where: {
-        studentId
+        studentId,
       },
       include: {
-        allocation:{
-          include:{
-            rooms:true
-          }
+        allocation: {
+          include: {
+            rooms: true,
+          },
         },
         roomRequest: true,
         hall: true,
-      }
-    })
+      },
+    });
   }
   findOne(id: string) {
     return this.prisma.student.findUnique({
       where: {
-        id
-      }
+        id,
+      },
     });
   }
 
   update(id: string, updateStudentDto: UpdateStudentDto) {
     return this.prisma.student.update({
       where: {
-        id
+        id,
       },
-      data: updateStudentDto
+      data: updateStudentDto,
     });
   }
 
   remove(id: string) {
     return this.prisma.student.delete({
       where: {
-        id
-      }
+        id,
+      },
     });
   }
 }

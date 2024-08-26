@@ -8,4 +8,4 @@ import { PasswordModule } from 'src/password/password.module';
   controllers: [StudentController],
   providers: [StudentService],
 })
-export class StudentModule { }
+export class StudentModule {}

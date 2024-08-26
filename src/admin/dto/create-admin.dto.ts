@@ -18,5 +18,4 @@ export class CreateAdminDto {
   @IsOptional()
   @IsString()
   telephone?: string;
-  a;
 }
