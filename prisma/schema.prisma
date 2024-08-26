@@ -26,7 +26,7 @@ model admin {
 
 model student {
   id          String       @id @default(uuid())
-  studentId   Int          @unique
+  studentId   String          @unique
   profile     String
   fullName    String
   email       String?
@@ -46,7 +46,7 @@ model student {
 model allocation {
   id        String   @id @default(uuid())
   student   student  @relation(fields: [studentId], references: [studentId])
-  studentId Int      @unique
+  studentId String      @unique
   rooms     rooms    @relation(fields: [roomsId], references: [id])
   roomsId   String
   createdAt DateTime @default(now())
@@ -67,7 +67,7 @@ model rooms {
 model roomRequest {
   id        String   @id @default(uuid())
   student   student  @relation(fields: [StudentId], references: [studentId])
-  StudentId Int      @unique
+  StudentId String      @unique
   status    options
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

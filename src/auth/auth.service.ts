@@ -46,9 +46,9 @@ export class AuthService {
   }
   //  sign In for student
   async studentSignIn(
-    studentId: number,
-    telephone: string,
+    studentId: string,
     password: string,
+    telephone: string,
 
   ): Promise<any> {
     const student = await this.prisma.student.findFirst({
@@ -62,7 +62,7 @@ export class AuthService {
       },
     })
 
-
+console.info(password)
     const isMatch = await this.bcrypt.comparePassword(password, student.password)
 
     if (isMatch) {

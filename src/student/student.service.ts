@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { CreateStudentDto } from './dto/create-student.dto';
 import { UpdateStudentDto } from './dto/update-student.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
@@ -8,7 +8,7 @@ export class StudentService {
   constructor(
     private readonly prisma: PrismaService,
     private bcrypt: PasswordService,
-  ) {}
+  ) { }
   async create(createStudentDto: CreateStudentDto) {
     createStudentDto.password = await this.bcrypt.hashPassword(
       createStudentDto.password,
@@ -44,21 +44,27 @@ export class StudentService {
     });
   }
 
-  findByStudentId(studentId: number) {
-    return this.prisma.student.findUnique({
-      where: {
-        studentId,
-      },
-      include: {
-        allocation: {
-          include: {
-            rooms: true,
-          },
+  findByStudentId(studentId: string) {
+    try {
+
+      return this.prisma.student.findUnique({
+        where: {
+          studentId,
         },
-        roomRequest: true,
-        hall: true,
-      },
-    });
+        include: {
+          allocation: {
+            include: {
+              rooms: true,
+            },
+          },
+          roomRequest: true,
+          hall: true,
+        },
+      });
+    } catch (error) {
+      console.log(error)
+      throw new BadRequestException()
+    }
   }
   findOne(id: string) {
     return this.prisma.student.findUnique({

@@ -8,8 +8,8 @@ import {
 } from 'class-validator';
 
 export class CreateStudentDto {
-  @IsInt()
-  studentId: number;
+  @IsString()
+  studentId: string;
   @IsString()
   profile: string;
   @IsString()

@@ -20,10 +20,11 @@ export class signInAdminDto {
 
 
 export class signInStudentDto {
-  @IsInt()
-  studentId: number;
+  @IsString()
+  studentId: string;
   @IsStrongPassword()
   password: string;
+  @IsOptional()
   @IsPhoneNumber('GH')
-  telephone: string;
+  telephone?: string;
 }

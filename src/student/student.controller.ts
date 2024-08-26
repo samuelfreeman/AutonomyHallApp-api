@@ -25,14 +25,15 @@ export class StudentController {
   findAll() {
     return this.studentService.findAll();
   }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.studentService.findOne(id);
-  }
+// investigate  why i cant use more endpoints
+  // @Get(':id')
+  // findOne(@Param('id') id: string) {
+  //   return this.studentService.findOne(id);
+  // }
 
   @Get(':studentId')
-  findStudentById(@Param('studentId') studentId: number) {
+  findStudentById(@Param('studentId') studentId: string) {
+    console.log(studentId)
     return this.studentService.findByStudentId(studentId);
   }
 

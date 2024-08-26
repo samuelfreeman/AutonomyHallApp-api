@@ -15,11 +15,11 @@ import { AuthService } from './auth.service';
 import { signInAdminDto, signInStudentDto } from './dto/signIn-admin.dto';
 
 
-@Controller('admin')
+@Controller('auth')
 export class AuthController {
   constructor(private authService: AuthService) { }
   @HttpCode(HttpStatus.OK)
-  @Post('login')
+  @Post('admin/login')
   signIn(@Body(ValidationPipe) signInDto: signInAdminDto) {
     return this.authService.signIn(
       signInDto.email,
@@ -32,16 +32,12 @@ export class AuthController {
   getProfile(@Request() req) {
     return req.user;
   }
-}
 
 
-
-@Controller('student')
-export class AuthStudentController {
-  constructor(private authService: AuthService) { }
   @HttpCode(HttpStatus.OK)
-  @Post('login')
-  signIn(@Body(ValidationPipe) signInDto: signInStudentDto) {
+  @Post('student/login')
+  signInStudent(@Body(ValidationPipe) signInDto: signInStudentDto) {
+    console.info(signInDto.password)
     return this.authService.studentSignIn(
       signInDto.studentId,
       signInDto.password,
@@ -49,10 +45,14 @@ export class AuthStudentController {
     );
   }
   @UseGuards(AuthGuard)
-  @Get('profile')
-  getProfile(@Request() req): any {
+  @Get('student/profile')
+  getStudentProfile(@Request() req): any {
     return req.user;
   }
+
 }
+
+
+
 
 
