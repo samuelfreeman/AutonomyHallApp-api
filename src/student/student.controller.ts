@@ -16,7 +16,7 @@ import { UpdateStudentDto } from './dto/update-student.dto';
 export class StudentController {
   constructor(private readonly studentService: StudentService) {}
 
-  @Post()
+  @Post('register')
   create(@Body(ValidationPipe) createStudentDto: CreateStudentDto) {
     return this.studentService.create(createStudentDto);
   }

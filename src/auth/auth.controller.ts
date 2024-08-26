@@ -12,11 +12,12 @@ import {
 
 import { AuthGuard } from './auth.guard';
 import { AuthService } from './auth.service';
-import { signInAdminDto } from './dto/signIn-admin.dto';
+import { signInAdminDto, signInStudentDto } from './dto/signIn-admin.dto';
+
 
 @Controller('admin')
 export class AuthController {
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService) { }
   @HttpCode(HttpStatus.OK)
   @Post('login')
   signIn(@Body(ValidationPipe) signInDto: signInAdminDto) {
@@ -32,3 +33,26 @@ export class AuthController {
     return req.user;
   }
 }
+
+
+
+@Controller('student')
+export class AuthStudentController {
+  constructor(private authService: AuthService) { }
+  @HttpCode(HttpStatus.OK)
+  @Post('login')
+  signIn(@Body(ValidationPipe) signInDto: signInStudentDto) {
+    return this.authService.studentSignIn(
+      signInDto.studentId,
+      signInDto.password,
+      signInDto.telephone,
+    );
+  }
+  @UseGuards(AuthGuard)
+  @Get('profile')
+  getProfile(@Request() req): any {
+    return req.user;
+  }
+}
+
+
