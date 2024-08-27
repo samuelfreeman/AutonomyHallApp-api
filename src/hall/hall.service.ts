@@ -1,26 +1,45 @@
 import { Injectable } from '@nestjs/common';
 import { CreateHallDto } from './dto/create-hall.dto';
 import { UpdateHallDto } from './dto/update-hall.dto';
-
+import { PrismaService } from 'src/prisma/prisma.service';
 @Injectable()
 export class HallService {
+  constructor(private readonly prisma: PrismaService) { }
   create(createHallDto: CreateHallDto) {
-    return 'This action adds a new hall';
+    return this.prisma.hall.create({
+      data: createHallDto,
+    });
   }
 
   findAll() {
-    return `This action returns all hall`;
+    return this.prisma.hall.findMany({
+      include: {
+        student: true,
+        rooms: true
+      },
+    });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} hall`;
+  findOne(id: string) {
+    return this.prisma.hall.findUnique({
+      where: { id },
+      include: {
+        student: true,
+        rooms: true
+      },
+    });
   }
 
-  update(id: number, updateHallDto: UpdateHallDto) {
-    return `This action updates a #${id} hall`;
+  update(id: string, updateHallDto: UpdateHallDto) {
+    return this.prisma.hall.update({
+      where: { id },
+      data: updateHallDto,
+    });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} hall`;
+  remove(id: string) {
+    return this.prisma.hall.delete({
+      where: { id },
+    });
   }
 }

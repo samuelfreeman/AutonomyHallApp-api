@@ -5,7 +5,7 @@ import { UpdateHallDto } from './dto/update-hall.dto';
 
 @Controller('hall')
 export class HallController {
-  constructor(private readonly hallService: HallService) {}
+  constructor(private readonly hallService: HallService) { }
 
   @Post()
   create(@Body() createHallDto: CreateHallDto) {
@@ -19,16 +19,16 @@ export class HallController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.hallService.findOne(+id);
+    return this.hallService.findOne(id);
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateHallDto: UpdateHallDto) {
-    return this.hallService.update(+id, updateHallDto);
+    return this.hallService.update(id, updateHallDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.hallService.remove(+id);
+    return this.hallService.remove(id);
   }
 }

@@ -26,7 +26,7 @@ model admin {
 
 model student {
   id          String       @id @default(uuid())
-  studentId   String          @unique
+  studentId   String       @unique
   profile     String
   fullName    String
   email       String?
@@ -38,7 +38,7 @@ model student {
   updatedAt   DateTime     @updatedAt
   department  String?
   allocation  allocation?
-  hall        hall?        @relation(fields: [hallId], references: [id])
+  hall        hall?        @relation(fields: [hallId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   hallId      String?
   roomRequest roomRequest?
 }
@@ -46,8 +46,8 @@ model student {
 model allocation {
   id        String   @id @default(uuid())
   student   student  @relation(fields: [studentId], references: [studentId])
-  studentId String      @unique
-  rooms     rooms    @relation(fields: [roomsId], references: [id])
+  studentId String   @unique
+  rooms     rooms    @relation(fields: [roomsId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   roomsId   String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -60,14 +60,14 @@ model rooms {
   blockName  String
   createdAt  DateTime     @default(now())
   allocation allocation[]
-  hall       hall         @relation(fields: [hallId], references: [id])
+  hall       hall         @relation(fields: [hallId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   hallId     String
 }
 
 model roomRequest {
   id        String   @id @default(uuid())
-  student   student  @relation(fields: [StudentId], references: [studentId])
-  StudentId String      @unique
+  student   student  @relation(fields: [StudentId], references: [studentId], onDelete: Cascade, onUpdate: Cascade)
+  StudentId String   @unique
   status    options
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
