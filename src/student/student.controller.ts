@@ -14,7 +14,7 @@ import { UpdateStudentDto } from './dto/update-student.dto';
 
 @Controller('student')
 export class StudentController {
-  constructor(private readonly studentService: StudentService) {}
+  constructor(private readonly studentService: StudentService) { }
 
   @Post('register')
   create(@Body(ValidationPipe) createStudentDto: CreateStudentDto) {
@@ -25,13 +25,13 @@ export class StudentController {
   findAll() {
     return this.studentService.findAll();
   }
-// investigate  why i cant use more endpoints
-  // @Get(':id')
-  // findOne(@Param('id') id: string) {
-  //   return this.studentService.findOne(id);
-  // }
+  // investigate  why i cant use more endpoints
+  @Get(':id')
+  findOne(@Param('id') id: string) {
+    return this.studentService.findOne(id);
+  }
 
-  @Get(':studentId')
+  @Get('single/:studentId')
   findStudentById(@Param('studentId') studentId: string) {
     console.log(studentId)
     return this.studentService.findByStudentId(studentId);
