@@ -5,7 +5,7 @@ import { UpdateRoomRequestDto } from './dto/update-room-request.dto';
 
 @Controller('room-request')
 export class RoomRequestController {
-  constructor(private readonly roomRequestService: RoomRequestService) {}
+  constructor(private readonly roomRequestService: RoomRequestService) { }
 
   @Post()
   create(@Body() createRoomRequestDto: CreateRoomRequestDto) {
@@ -19,16 +19,16 @@ export class RoomRequestController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.roomRequestService.findOne(+id);
+    return this.roomRequestService.findOne(id);
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateRoomRequestDto: UpdateRoomRequestDto) {
-    return this.roomRequestService.update(+id, updateRoomRequestDto);
+    return this.roomRequestService.update(id, updateRoomRequestDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.roomRequestService.remove(+id);
+    return this.roomRequestService.remove(id);
   }
 }
