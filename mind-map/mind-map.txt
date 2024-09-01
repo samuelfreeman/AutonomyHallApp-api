@@ -1,0 +1,85 @@
+entities
+admin
+student 
+hall
+room 
+roomrequest 
+allocation
+
+
+
+
+
+flow:
+student registers him/herself
+student makes payment 
+student makes a room request via the mobile application
+
+
+admin sees all requests 
+admin accepts all requests
+admin allocate rooms for students 
+admin add rooms
+admin view room analytics 
+
+
+
+
+
+
+
+
+new implementation :
+
+allocation of room to students have to be automatic
+
+
+
+roomrequest and allocation  should become one 
+
+
+
+
+ when student makes a room-request 
+ 
+
+
+ we first check  for  available  rooms 
+: we can go into the database and look for rooms where 
+the status is not occupied 
+ 
+
+
+
+ then we  get the room id 
+ then we take the students id 
+ we create a new allocation  by assigning student to room id 
+
+ this will make the process very automatic 
+
+
+
+ i am pondring wether the room request entity is really needed 
+ i think yes so we can track how  many roomrequests the students has made 
+ so we can decide wether we should limit it or not maybe limiting it to 
+ about 4  successfull requests.
+  i am also think of making this a database transaction.
+
+
+
+
+
+
+another implementation
+All rooms will be taken as occupied if the 
+room has 4 students
+
+
+
+look for rooms where their  allocation count is four 
+then we update those rooms status to 'occupied' 
+
+
+
+
+
