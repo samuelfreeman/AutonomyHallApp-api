@@ -29,6 +29,6 @@ export class AllocationController {
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.allocationService.remove(+id);
+    return this.allocationService.remove(id);
   }
 }

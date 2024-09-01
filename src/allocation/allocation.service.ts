@@ -1,15 +1,16 @@
 import { Injectable } from '@nestjs/common';
 import { CreateAllocationDto } from './dto/create-allocation.dto';
 import { UpdateAllocationDto } from './dto/update-allocation.dto';
-
+import { PrismaService } from 'src/prisma/prisma.service';
 @Injectable()
 export class AllocationService {
+  constructor(private readonly prisma: PrismaService) { }
   create(createAllocationDto: CreateAllocationDto) {
     return 'This action adds a new allocation';
   }
 
   findAll() {
-    return `This action returns all allocation`;
+    return this.prisma.allocation.findMany({});
   }
 
   findOne(id: number) {
@@ -20,7 +21,11 @@ export class AllocationService {
     return `This action updates a #${id} allocation`;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} allocation`;
+  remove(id: string) {
+    return this.prisma.allocation.delete({
+      where: {
+        id
+      }
+    });
   }
 }

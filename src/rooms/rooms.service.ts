@@ -16,6 +16,13 @@ export class RoomsService {
       orderBy: [
         { createdAt: 'desc' }
       ]
+      , include: {
+        allocation: {
+          include: {
+            student: true
+          }
+        }
+      }
     });
   }
 
