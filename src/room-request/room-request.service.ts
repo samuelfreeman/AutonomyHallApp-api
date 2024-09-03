@@ -10,10 +10,56 @@ export class RoomRequestService {
   async create(createRoomRequestDto: CreateRoomRequestDto) {
 
     try {
+      // * search for available rooms 
+      const room = await this.prisma.rooms.findFirst({
+        where: {
+          status: {
+            not: 'Occupied'
+          }
+        }
+      })
 
-    return this.prisma.$transaction([
-      
-    ])
+      //  !if there are no rooms we throw error 
+      if (!room) {
+        throw new Error('No available rooms')
+      }
+      //  *we allocate room to students
+      //  *create a new allocation with the roomid and the student id
+      await this.prisma.allocation.create({
+        data: {
+          roomsId: room.id,
+          studentId: createRoomRequestDto.StudentId
+
+        }
+      })
+      // * increase the number of allocations in the room entity 
+      await this.prisma.rooms.update({
+        where: {
+          id: room.id
+        },
+        data: {
+          numberOfAllocations: room.numberOfAllocations + 1
+        }
+      })
+
+      // *update  the rooms with number of allocation 4 to occupied
+      await this.prisma.rooms.updateMany({
+        where: {
+          numberOfAllocations: 4
+        },
+        data: {
+          status: 'Occupied'
+        }
+      })
+
+
+      //  *Approve the request 
+      return this.prisma.roomRequest.create({
+        data: {
+          status: 'Approved',
+          StudentId: createRoomRequestDto.StudentId
+        }
+      })
 
     } catch (error) {
       console.log(error)

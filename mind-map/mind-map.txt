@@ -63,7 +63,7 @@ the status is not occupied
  i think yes so we can track how  many roomrequests the students has made 
  so we can decide wether we should limit it or not maybe limiting it to 
  about 4  successfull requests.
-  i am also think of making this a database transaction.
+ i am also think of making this a database transaction.
 
 
 

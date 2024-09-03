@@ -54,14 +54,15 @@ model allocation {
 }
 
 model rooms {
-  id         String       @id @default(uuid())
-  roomnumber Int          @unique
-  status     status
-  blockName  String
-  createdAt  DateTime     @default(now())
-  allocation allocation[]
-  hall       hall?        @relation(fields: [hallId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  hallId     String?
+  id                  String       @id @default(uuid())
+  roomnumber          Int          @unique
+  status              status
+  blockName           String
+  createdAt           DateTime     @default(now())
+  allocation          allocation[]
+  numberOfAllocations Int          @default(0)
+  hall                hall?        @relation(fields: [hallId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  hallId              String?
 }
 
 model roomRequest {
