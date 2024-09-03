@@ -5,6 +5,5 @@ export class UpdateRoomRequestDto extends PartialType(CreateRoomRequestDto) {
     id?: string
     StudentId?: string;
     status?: RequestStatus;
-
 }
 

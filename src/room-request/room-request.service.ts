@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { CreateRoomRequestDto } from './dto/create-room-request.dto';
 import { UpdateRoomRequestDto } from './dto/update-room-request.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
@@ -42,10 +42,13 @@ export class RoomRequestService {
         }
       })
 
-      // *update  the rooms with number of allocation 4 to occupied
+      // *update  the rooms with number of allocation  to occupied
+      // ? so now when the number of allocations is equal to the limit we set the status to  occupied 
       await this.prisma.rooms.updateMany({
         where: {
-          numberOfAllocations: 4
+          numberOfAllocations: {
+            equals: this.prisma.rooms.fields.limit
+          }
         },
         data: {
           status: 'Occupied'
@@ -62,7 +65,7 @@ export class RoomRequestService {
       })
 
     } catch (error) {
-      console.log(error)
+      throw new InternalServerErrorException(error.message)
     }
   }
 

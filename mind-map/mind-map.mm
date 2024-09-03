@@ -1,4 +1,4 @@
-entities
+entities:
 admin
 student 
 hall
@@ -14,7 +14,6 @@ flow:
 student registers him/herself
 student makes payment 
 student makes a room request via the mobile application
-
 
 admin sees all requests 
 admin accepts all requests
