@@ -2,7 +2,8 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { AllocationService } from './allocation.service';
 import { CreateAllocationDto } from './dto/create-allocation.dto';
 import { UpdateAllocationDto } from './dto/update-allocation.dto';
-
+import { ApiTags } from '@nestjs/swagger';
+@ApiTags("Allocation")
 @Controller('allocation')
 export class AllocationController {
   constructor(private readonly allocationService: AllocationService) {}

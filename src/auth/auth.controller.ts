@@ -13,8 +13,9 @@ import {
 import { AuthGuard } from './auth.guard';
 import { AuthService } from './auth.service';
 import { signInAdminDto, signInStudentDto } from './dto/signIn-admin.dto';
+import { ApiTags } from '@nestjs/swagger';
 
-
+@ApiTags("Authentication")
 @Controller('auth')
 export class AuthController {
   constructor(private authService: AuthService) { }
