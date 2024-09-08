@@ -7,18 +7,22 @@ import {
   Param,
   Delete,
   ValidationPipe,
+  UseInterceptors,
+  UploadedFile,
 } from '@nestjs/common';
 import { StudentService } from './student.service';
 import { CreateStudentDto } from './dto/create-student.dto';
 import { UpdateStudentDto } from './dto/update-student.dto';
 import { ApiTags } from '@nestjs/swagger';
+import { FileInterceptor } from '@nestjs/platform-express';
 @ApiTags("Student")
 @Controller('student')
 export class StudentController {
   constructor(private readonly studentService: StudentService) { }
 
   @Post('register')
-  create(@Body(ValidationPipe) createStudentDto: CreateStudentDto) {
+  @UseInterceptors(FileInterceptor('file'))
+  create(@Body(ValidationPipe  ) createStudentDto: CreateStudentDto ) {
     return this.studentService.create(createStudentDto);
   }
 

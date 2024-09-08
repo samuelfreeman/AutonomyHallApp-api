@@ -13,7 +13,7 @@ import {
 import { AuthGuard } from './auth.guard';
 import { AuthService } from './auth.service';
 import { signInAdminDto, signInStudentDto } from './dto/signIn-admin.dto';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBasicAuth, ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
 @ApiTags("Authentication")
 @Controller('auth')
@@ -28,6 +28,8 @@ export class AuthController {
       signInDto.telephone,
     );
   }
+  @ApiBasicAuth()
+  @ApiBearerAuth()
   @UseGuards(AuthGuard)
   @Get('profile')
   getProfile(@Request() req) {
