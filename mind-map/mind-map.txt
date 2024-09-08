@@ -13,17 +13,14 @@ allocation
 flow:
 student registers him/herself
 student makes payment 
-student makes a room request via the mobile application
+student makes a room request via the mobile application 
+so when student submits a room request , automaically they will be assigined to a room
 
 admin sees all requests 
 admin accepts all requests
 admin allocate rooms for students 
 admin add rooms
 admin view room analytics 
-
-
-
-
 
 
 
@@ -62,7 +59,8 @@ the status is not occupied
  i think yes so we can track how  many roomrequests the students has made 
  so we can decide wether we should limit it or not maybe limiting it to 
  about 4  successfull requests.
- i am also think of making this a database transaction.
+ i am also think of making this a database transaction but it will be probablly best to implement it when i integrate the payment api to it .
+
 
 
 
@@ -81,4 +79,13 @@ then we update those rooms status to 'occupied'
 
 
 
+
+The first role on my application is that students should be able 
+
+Students can  register  for the hall app  providing all the necessary requirements.
+But they must be an affliate of the hall first.
+
+
+i am pondering wether the hall entity is needed since its for just one hall which is autonomy
+then how will i get the number of rooms - by doing analytics on the room 
 
