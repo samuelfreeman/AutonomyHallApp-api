@@ -15,22 +15,26 @@ import { CreateStudentDto } from './dto/create-student.dto';
 import { UpdateStudentDto } from './dto/update-student.dto';
 import { ApiTags } from '@nestjs/swagger';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { CacheInterceptor } from '@nestjs/cache-manager';
 @ApiTags("Student")
 @Controller('student')
 export class StudentController {
-  constructor(private readonly studentService: StudentService) { }
+  constructor(private readonly studentService: StudentService  ) { }
+
+
 
   @Post('register')
   @UseInterceptors(FileInterceptor('file'))
-  create(@Body(ValidationPipe  ) createStudentDto: CreateStudentDto ) {
+  create(@Body(ValidationPipe) createStudentDto: CreateStudentDto) {
     return this.studentService.create(createStudentDto);
   }
-
+  //  implementing cache 
+  @UseInterceptors(CacheInterceptor)
   @Get()
   findAll() {
     return this.studentService.findAll();
   }
-  // investigate  why i cant use more endpoints
+
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.studentService.findOne(id);

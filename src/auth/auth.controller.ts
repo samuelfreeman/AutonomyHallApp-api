@@ -1,61 +1,22 @@
-import {
-  Controller,
-  Body,
-  Post,
-  HttpCode,
-  HttpStatus,
-  Get,
-  Request,
-  UseGuards,
-  ValidationPipe,
-} from '@nestjs/common';
-
-import { AuthGuard } from './auth.guard';
+import { Body, Controller, HttpException, Post } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { signInAdminDto, signInStudentDto } from './dto/signIn-admin.dto';
-import { ApiBasicAuth, ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-
-@ApiTags("Authentication")
+import { authPayloadDto } from './dto/auth.dto';
+import { Request } from 'express'
 @Controller('auth')
 export class AuthController {
-  constructor(private authService: AuthService) { }
-  @HttpCode(HttpStatus.OK)
-  @Post('admin/login')
-  signIn(@Body(ValidationPipe) signInDto: signInAdminDto) {
-    return this.authService.signIn(
-      signInDto.email,
-      signInDto.password,
-      signInDto.telephone,
-    );
-  }
-  @ApiBasicAuth()
-  @ApiBearerAuth()
-  @UseGuards(AuthGuard)
-  @Get('profile')
-  getProfile(@Request() req) {
-    return req.user;
-  }
+    constructor(private authService: AuthService) { }
+    @Post('login')
 
+    async login(@Request() req: Request, @Body() authPayload: authPayloadDto) {
+        req.user
+        const user = this.authService.validateUser(authPayload)
 
-  @HttpCode(HttpStatus.OK)
-  @Post('student/login')
-  signInStudent(@Body(ValidationPipe) signInDto: signInStudentDto) {
-    console.info(signInDto.password)
-    return this.authService.studentSignIn(
-      signInDto.studentId,
-      signInDto.password,
-      signInDto.telephone,
-    );
-  }
-  @UseGuards(AuthGuard)
-  @Get('student/profile')
-  getStudentProfile(@Request() req): any {
-    return req.user;
-  }
+        if (!user) {
 
+            throw new HttpException('Invalid  Credentials', 401)
+        }
+
+        return user
+
+    }
 }
-
-
-
-
-

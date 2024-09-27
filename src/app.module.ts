@@ -12,13 +12,24 @@ import { HallModule } from './hall/hall.module';
 import { RoomRequestModule } from './room-request/room-request.module';
 import { RoomsModule } from './rooms/rooms.module';
 import { AllocationModule } from './allocation/allocation.module';
+import type { RedisClientOptions } from 'redis';
+import * as redisStore from 'cache-manager-redis-store'
+import { CacheModule } from '@nestjs/cache-manager';
+
+
+
 @Module({
   imports: [
+    CacheModule.register<RedisClientOptions>({
+    store: redisStore,
+    url: "redis://default:R5QGmA2OqjV9UTzAaLmftbTudDcVqSxu@redis-10659.c245.us-east-1-3.ec2.redns.redis-cloud.com:10659",
+    isGlobal: true
+  }),
     AdminModule,
     PrismaModule,
     AuthModule,
     PasswordModule,
-    ConfigModule.forRoot(),
+  ConfigModule.forRoot(),
     StudentModule,
     HallModule,
     RoomRequestModule,
@@ -28,4 +39,4 @@ import { AllocationModule } from './allocation/allocation.module';
   controllers: [AppController],
   providers: [AppService, PasswordService],
 })
-export class AppModule {}
+export class AppModule { }

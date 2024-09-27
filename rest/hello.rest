@@ -1,0 +1,15 @@
+GET http://localhost:3000/auth/profile
+authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJjOTVkODY5Zi05NWI3LTRhNTQtYmU4ZC1mN2VlMDNlMzY1ZjAiLCJzdHVkZW50SWQiOiI1MjIxMDQwODc2IiwiaWF0IjoxNzI1ODU3MDk4LCJleHAiOjE3MjU5NDM0OTh9.80EMjzEjbcDoIo1087kkaO7jx7dHxweDHOvARFfVzZA
+
+
+
+
+###
+
+POST http://localhost:3000/auth/student/login
+Content-Type: application/json
+
+{
+    "studentId":"5221040876",
+    "password": "Pass123@"
+}

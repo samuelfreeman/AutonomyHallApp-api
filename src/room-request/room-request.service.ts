@@ -71,7 +71,7 @@ export class RoomRequestService {
 
   findAll() {
     return this.prisma.roomRequest.groupBy({
-      by: ['status', 'StudentId'],
+      by: ['status'],
 
 
     });

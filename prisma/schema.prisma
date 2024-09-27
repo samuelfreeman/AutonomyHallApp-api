@@ -33,13 +33,13 @@ model student {
   password    String
   gender      String
   level       Int
-  disabled    Boolean?
+  disabled    Boolean?     @default(false)
   telephone   String       @unique
   createdAt   DateTime     @default(now())
   updatedAt   DateTime     @updatedAt
   department  String?
   allocation  allocation?
-  affiliate   String
+  affilliate  String      @default("Autonomy")
   hall        hall?        @relation(fields: [hallId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   hallId      String?
   roomRequest roomRequest?

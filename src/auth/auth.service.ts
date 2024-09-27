@@ -1,83 +1,26 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
+import { authPayloadDto } from './dto/auth.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { PasswordService } from 'src/password/password.service';
 import { JwtService } from '@nestjs/jwt';
-
 @Injectable()
 export class AuthService {
-  constructor(
-    private prisma: PrismaService,
-    private bcrypt: PasswordService,
-    private jwtService: JwtService,
-  ) { }
 
-  //  sigin in for admin 
-  async signIn(
-    email: string,
-    password: string,
-    telephone: string,
-  ): Promise<any> {
-    const admin = await this.prisma.admin.findFirst({
-      where: {
-        OR: [
-          {
-            email,
-            telephone,
-          },
-        ],
-      },
-    });
+    constructor(private readonly prisma: PrismaService, private bcrypt :PasswordService , private jwt:JwtService) { }
 
-    const isMatch = await this.bcrypt.comparePassword(
-      password,
-      admin?.password,
-    );
-    if (!isMatch) {
-      throw new UnauthorizedException();
+    async validateUser({ email, password }: authPayloadDto) {
+        const user = await this.prisma.admin.findUnique({
+            where: {
+                email
+            }
+        })
+        if(!user) return  null;
+        const iSValid = await this.bcrypt.comparePassword(password,user.password)
+        if(iSValid){
+            const {password ,...result} = user;
+          const token =  this.jwt.sign(result)
+          
+          return token
+        }
     }
-    const { password: _, ...rest } = admin;
-    console.info("log used var", _);
-    const payload = { sub: admin.id, email: admin.email };
-    const token = await this.jwtService.signAsync(payload);
-    return {
-      rest,
-      access_token: token,
-    };
-  }
-  //  sign In for student
-  async studentSignIn(
-    studentId: string,
-    password: string,
-    telephone: string,
-
-  ): Promise<any> {
-    const student = await this.prisma.student.findFirst({
-      where: {
-        OR: [
-          {
-            studentId,
-            telephone,
-          },
-        ],
-      },
-    })
-
-console.info(password)
-    const isMatch = await this.bcrypt.comparePassword(password, student.password)
-
-    if (isMatch) {
-      const { password: _, ...rest } = student;
-      console.info("log used var", _);
-      const payload = { sub: student.id, studentId: student.studentId }
-      const token = await this.jwtService.signAsync(payload)
-      return {
-        rest,
-        access_token: token
-      }
-    }
-  }
-
-
 }
-
-

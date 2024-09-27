@@ -79,6 +79,10 @@ then we update those rooms status to 'occupied'
 
 
 
+trying to connect a redis databse to it 
+:  redis-10659.c245.us-east-1-3.ec2.redns.redis-cloud.com:10659
+password :R5QGmA2OqjV9UTzAaLmftbTudDcVqSxu
+username: default 
 
 The first role on my application is that students should be able 
 
