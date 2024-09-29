@@ -1,13 +1,12 @@
-import { Body, Controller, HttpException, Post } from '@nestjs/common';
+import { Body, Controller, HttpException, Post, Request } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { authPayloadDto } from './dto/auth.dto';
-import { Request } from 'express'
+import { Request as request } from 'express'
 @Controller('auth')
 export class AuthController {
     constructor(private authService: AuthService) { }
     @Post('login')
-
-    async login(@Request() req: Request, @Body() authPayload: authPayloadDto) {
+    async login(@Request() req: request, @Body() authPayload: authPayloadDto) {
         req.user
         const user = this.authService.validateUser(authPayload)
 

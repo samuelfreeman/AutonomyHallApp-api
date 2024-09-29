@@ -13,13 +13,14 @@ import {
 import { StudentService } from './student.service';
 import { CreateStudentDto } from './dto/create-student.dto';
 import { UpdateStudentDto } from './dto/update-student.dto';
+import { ForgotPassword } from './dto/forgotPass';
 import { ApiTags } from '@nestjs/swagger';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { CacheInterceptor } from '@nestjs/cache-manager';
 @ApiTags("Student")
 @Controller('student')
 export class StudentController {
-  constructor(private readonly studentService: StudentService  ) { }
+  constructor(private readonly studentService: StudentService) { }
 
 
 
@@ -28,8 +29,15 @@ export class StudentController {
   create(@Body(ValidationPipe) createStudentDto: CreateStudentDto) {
     return this.studentService.create(createStudentDto);
   }
+
+
+  @Post('forgot-password')
+  forgotPassword(@Body(ValidationPipe) checkForgotPassword: ForgotPassword) {
+    return this.studentService.forgotPassword(checkForgotPassword.email);
+  }
+
   //  implementing cache 
-  @UseInterceptors(CacheInterceptor)
+  // @UseInterceptors(CacheInterceptor)
   @Get()
   findAll() {
     return this.studentService.findAll();

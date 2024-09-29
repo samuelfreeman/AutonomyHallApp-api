@@ -3,22 +3,22 @@ import { Inject, Injectable } from '@nestjs/common';
 import { Cache } from 'cache-manager';
 @Injectable()
 export class AppService {
-  constructor(@Inject(CACHE_MANAGER) private cacheManager: Cache) { }
+  // constructor(@Inject(CACHE_MANAGER) private cacheManager: Cache) { }
 
-  async setCacheKey(key: string, value: string): Promise<void> {
-    await this.cacheManager.set('key', 'value');
-  }
+  // async setCacheKey(key: string, value: string): Promise<void> {
+  //   await this.cacheManager.set('key', 'value');
+  // }
 
 
-  async getCacheKey(key: string, value: string): Promise<string> {
-    return await this.cacheManager.get('key');
-  }
-  async deleteCacheKey(key: string): Promise<void> {
-    await this.cacheManager.del('key');
-  }
-  async resetCache(): Promise<void> {
-    await this.cacheManager.reset()
-  }
+  // async getCacheKey(key: string, value: string): Promise<string> {
+  //   return await this.cacheManager.get('key');
+  // }
+  // async deleteCacheKey(key: string): Promise<void> {
+  //   await this.cacheManager.del('key');
+  // }
+  // async resetCache(): Promise<void> {
+  //   await this.cacheManager.reset()
+  // }
   getHello(): string {
     return 'Welcome to the autonomy hall app api!';
   }

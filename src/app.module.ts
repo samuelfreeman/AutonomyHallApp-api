@@ -15,16 +15,17 @@ import { AllocationModule } from './allocation/allocation.module';
 import type { RedisClientOptions } from 'redis';
 import * as redisStore from 'cache-manager-redis-store'
 import { CacheModule } from '@nestjs/cache-manager';
+import { MailModule } from './mail/mail.module';
 
 
 
 @Module({
   imports: [
-    CacheModule.register<RedisClientOptions>({
-    store: redisStore,
-    url: "redis://default:R5QGmA2OqjV9UTzAaLmftbTudDcVqSxu@redis-10659.c245.us-east-1-3.ec2.redns.redis-cloud.com:10659",
-    isGlobal: true
-  }),
+  //   CacheModule.register<RedisClientOptions>({
+  //   store: redisStore,
+  //   url: "redis://default:R5QGmA2OqjV9UTzAaLmftbTudDcVqSxu@redis-10659.c245.us-east-1-3.ec2.redns.redis-cloud.com:10659",
+  //   isGlobal: true
+  // }),
     AdminModule,
     PrismaModule,
     AuthModule,
@@ -35,6 +36,7 @@ import { CacheModule } from '@nestjs/cache-manager';
     RoomRequestModule,
     RoomsModule,
     AllocationModule,
+    MailModule,
   ],
   controllers: [AppController],
   providers: [AppService, PasswordService],

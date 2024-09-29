@@ -3,11 +3,15 @@ import { CreateStudentDto } from './dto/create-student.dto';
 import { UpdateStudentDto } from './dto/update-student.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { PasswordService } from 'src/password/password.service';
+import { MailService } from 'src/mail/mail.service';
 @Injectable()
 export class StudentService {
   constructor(
     private readonly prisma: PrismaService,
     private bcrypt: PasswordService,
+    private mail: MailService,
+
+
   ) { }
   async create(createStudentDto: CreateStudentDto) {
     createStudentDto.password = await this.bcrypt.hashPassword(
@@ -82,6 +86,14 @@ export class StudentService {
       data: updateStudentDto,
     });
   }
+
+
+
+  forgotPassword(email: string) {
+    return this.mail.sendMail(email, "Testing", "The nodemailer is working", ` <p>Click here to reset your password :<a href=" https:localhost:3000/resetPassword/">  Click here </a> </p>   `)
+
+  }
+
 
   remove(id: string) {
     return this.prisma.student.delete({
