@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateStudentDto } from './dto/create-student.dto';
 import { UpdateStudentDto } from './dto/update-student.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
@@ -48,27 +48,21 @@ export class StudentService {
     });
   }
 
-  findByStudentId(studentId: string) {
-    try {
+  async findByStudentId(studentId: string) {
 
-      return this.prisma.student.findUnique({
-        where: {
-          studentId,
-        },
-        include: {
-          allocation: {
-            include: {
-              rooms: true,
-            },
-          },
-          roomRequest: true,
-          hall: true,
-        },
-      });
-    } catch (error) {
-      console.log(error)
-      throw new BadRequestException()
+
+    const user = await this.prisma.student.findUnique({
+      where: { studentId },
+    });
+    console.log(user)
+
+    if (!user) {
+      throw new NotFoundException(`User with ID ${studentId} not found`);
     }
+    return user;
+
+
+
   }
   findOne(id: string) {
     return this.prisma.student.findUnique({
