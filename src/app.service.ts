@@ -19,7 +19,46 @@ export class AppService {
   // async resetCache(): Promise<void> {
   //   await this.cacheManager.reset()
   // }
-  getHello(): string {
-    return 'Welcome to the autonomy hall app api!';
+
+
+  getHello() {
+
+    const cast = {
+      "characters": [
+
+        {
+          "name": "John Doe",
+          "age": 30,
+          "gender": "Male",
+          "occupation": "Software Engineer"
+        },
+        {
+          "name": "Jane Doe",
+          "age": 28,
+          "gender": "Female",
+          "occupation": "Product Manager"
+        },
+        {
+          "name": "Alice Doe",
+          "age": 32,
+          "gender": "Female",
+          "occupation": "UX Designer"
+        },
+        {
+          "name": "Bob Doe",
+          "age": 25,
+          "gender": "Male",
+          "occupation": "QA Engineer"
+        },
+        {
+          "name": "Charlie Doe",
+          "age": 35,
+          "gender": "Male",
+          "occupation": "Project Manager"
+        }
+      ]
+    }
+    const title = 'Home'
+    return { cast, title };
   }
 }

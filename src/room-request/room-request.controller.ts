@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Render } from '@nestjs/common';
 import { RoomRequestService } from './room-request.service';
 import { CreateRoomRequestDto } from './dto/create-room-request.dto';
 import { UpdateRoomRequestDto } from './dto/update-room-request.dto';
@@ -7,6 +7,15 @@ import { ApiTags } from '@nestjs/swagger';
 @Controller('room-request')
 export class RoomRequestController {
   constructor(private readonly roomRequestService: RoomRequestService) { }
+
+
+  @Get("service")
+  @Render('service')
+  renderService() {
+    return { title: "Service" };
+  }
+
+
 
   @Post()
   create(@Body() createRoomRequestDto: CreateRoomRequestDto) {
