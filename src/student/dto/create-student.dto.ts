@@ -8,6 +8,9 @@ import {
 } from 'class-validator';
 
 export class CreateStudentDto {
+
+  @IsString()
+  image: string
   @IsString()
   studentId: string;
   @IsString()
