@@ -13,6 +13,7 @@ describe('StudentService', () => {
     },
   };
 
+
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
 
@@ -27,7 +28,7 @@ describe('StudentService', () => {
 
   it('should throw NotFoundException if user does not exist', async () => {
     prismaMock.student.findUnique.mockResolvedValue(null);
-    
+
     await expect(service.findByStudentId('non-existing-id')).rejects.toThrow(
       NotFoundException,
     );

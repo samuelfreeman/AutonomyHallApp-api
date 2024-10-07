@@ -8,11 +8,12 @@ export class CloudinaryService {
             api_key: process.env.CLOUDINARY_API_KEY,
             api_secret: process.env.CLOUDINARY_API_SECRET,
         });
+
     }
 
     async uploadImage(filePath: string): Promise<UploadApiErrorResponse | UploadApiResponse> {
         return new Promise((resolve, reject) => {
-            v2.uploader.upload(filePath, { folder: 'images' }, (err, result) => {
+            v2.uploader.upload(filePath, { folder: 'hallapp' }, (err, result) => {
                 if (err) return reject(err);
                 else return resolve(result);
             });

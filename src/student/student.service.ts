@@ -17,7 +17,10 @@ export class StudentService {
     createStudentDto.password = await this.bcrypt.hashPassword(
       createStudentDto.password,
     );
+
+    
     return this.prisma.student.create({
+
       data: createStudentDto,
     });
   }

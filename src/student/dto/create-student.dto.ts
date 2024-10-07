@@ -5,16 +5,13 @@ import {
   IsStrongPassword,
   IsOptional,
   IsPhoneNumber,
+  
 } from 'class-validator';
-
+import { Transform} from 'class-transformer';
 export class CreateStudentDto {
-
-  @IsString()
-  image: string
   @IsString()
   studentId: string;
-  @IsString()
-  profile: string;
+  profile: string; // this is an image
   @IsString()
   fullName: string;
   @IsEmail()
@@ -24,7 +21,11 @@ export class CreateStudentDto {
   password: string;
   @IsString()
   gender: string;
-  @IsInt()
+
+  
+  
+  
+  @Transform(({ value }) => parseInt(value, 10))
   level: number;
   @IsPhoneNumber('GH')
   telephone: string;

@@ -14,7 +14,11 @@ import {
   FileTypeValidator,
   InternalServerErrorException,
   NotFoundException,
+  Render,
+  BadRequestException,
+  UsePipes,
 } from '@nestjs/common';
+import { multerConfig } from '../multer/multer';
 import { StudentService } from './student.service';
 import { CreateStudentDto } from './dto/create-student.dto';
 import { UpdateStudentDto } from './dto/update-student.dto';
@@ -28,26 +32,51 @@ import { CloudinaryService } from 'src/cloudinary/cloudinary.service';
 export class StudentController {
   constructor(private readonly studentService: StudentService, private readonly cloudinaryService: CloudinaryService) { }
 
-
-
   @Post('register')
-  @UseInterceptors(FileInterceptor('profile'))
-  async create(@Body(ValidationPipe) @UploadedFile(new ParseFilePipe({
-    validators: [
-      new MaxFileSizeValidator({ maxSize: 2000 }),
-    ],
-  })) file: Express.Multer.File, createStudentDto: CreateStudentDto) {
+  @UsePipes(new ValidationPipe({ transform: true }))
+  @UseInterceptors(FileInterceptor('profile', multerConfig)) // 'profile' matches the input name in the form
+  async create(
+    @UploadedFile(
+      new ParseFilePipe({
+        validators: [
+          new MaxFileSizeValidator({ maxSize: 200000 }), // 200 KB
+        ],
+      })
+    )
+    file: Express.Multer.File,
 
-
-    const imageUrl = await this.cloudinaryService.uploadImage(file.path);
-    if (!imageUrl) {
-      throw new InternalServerErrorException("Error uploading Image")
+    @Body(ValidationPipe) createStudentDto: CreateStudentDto
+  ) {
+    console.log(file.path)
+    // Ensure the file is present before trying to upload
+    if (!file) {
+      throw new BadRequestException('Missing required file: profile');
     }
-    createStudentDto.image = imageUrl.secure_url;
-    return this.studentService.create(createStudentDto);
+    try {
+      // Upload the file to Cloudinary
+      const imageUrl = await this.cloudinaryService.uploadImage(file.path);
 
+      if (!imageUrl) {
+        throw new InternalServerErrorException('Error uploading image');
+      }
+      // Add the Cloudinary image URL to the DTO
+      createStudentDto.profile = imageUrl.secure_url;
+
+      // Create the student
+      return await this.studentService.create(createStudentDto);
+
+    } catch (error) {
+      console.error('Error during student creation:', error);
+      throw new InternalServerErrorException('Error creating student');
+    }
   }
 
+
+  @Get("register")
+  @Render('signUp')
+  renderRegister() {
+    return { title: "Register" };
+  }
 
   @Post('forgot-password')
   forgotPassword(@Body(ValidationPipe) checkForgotPassword: ForgotPassword) {
